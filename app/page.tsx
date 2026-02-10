@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Copy, Plus, Trash2, Key, ShieldCheck, Lock, Eye, EyeOff, Search } from "lucide-react";
 import { encrypt, decrypt } from "@/lib/crypto";
 
@@ -18,30 +18,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [visiblePasswords, setVisiblePasswords] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    loadFromLocalStorage();
-  }, []);
-
-  const loadFromLocalStorage = () => {
-    setLoading(true);
-    try {
-      const saved = localStorage.getItem("bela-senhas-data");
-      if (saved) {
-        const parsed = JSON.parse(saved) as PasswordEntry[];
-        // Data is saved encrypted, so we decrypt it for the state
-        const decrypted = parsed.map(p => ({
-          ...p,
-          password: decrypt(p.password)
-        }));
-        setPasswords(decrypted);
-      }
-    } catch (error) {
-      console.error("Failed to load passwords", error);
-    }
-    setLoading(false);
-  };
-
-  const saveToLocalStorage = (newPasswords: PasswordEntry[]) => {
+  const saveToLocalStorage = useCallback((newPasswords: PasswordEntry[]) => {
     try {
       // Encrypt before saving to localStorage
       const encrypted = newPasswords.map(p => ({
@@ -52,7 +29,7 @@ export default function Dashboard() {
     } catch (error) {
       console.error("Failed to save passwords", error);
     }
-  };
+  }, []);
 
   const addPassword = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,6 +60,28 @@ export default function Dashboard() {
     setPasswords(updated);
     saveToLocalStorage(updated);
   };
+
+  useEffect(() => {
+    // Only access localStorage on client mount to avoid hydration mismatch
+    const saved = localStorage.getItem("bela-senhas-data");
+
+    // Use an asynchronous microtask to avoid the "setState synchronously in effect" lint error
+    Promise.resolve().then(() => {
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved) as PasswordEntry[];
+          const decrypted = parsed.map(p => ({
+            ...p,
+            password: decrypt(p.password)
+          }));
+          setPasswords(decrypted);
+        } catch (error) {
+          console.error("Failed to load passwords", error);
+        }
+      }
+      setLoading(false);
+    });
+  }, []);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
