@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #1C344C;
+  --color-foreground: #F1E9DE;
+  --color-primary: #DE7461;
+  --color-secondary: #24415C;
+  --color-accent: #DE7461;
+}
+
+:root {
+  --background: #1C344C;
+  --foreground: #F1E9DE;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-background font-bold uppercase tracking-tighter px-6 py-3 transition-all hover:bg-foreground hover:scale-105 active:scale-95;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 90% 100%, 0 100%);
+  }
+
+  .card-brutalist {
+    @apply bg-secondary/50 border border-foreground/10 p-6 transition-all;
+    box-shadow: 4px 4px 0px rgba(222, 116, 97, 0.2);
+  }
+
+  .input-brutalist {
+    @apply bg-background border border-foreground/20 px-4 py-3 focus:border-primary outline-none text-foreground transition-all;
+  }
+}
+
+/* Animations */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-reveal {
+  animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
