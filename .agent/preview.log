@@ -287,3 +287,4 @@
 ✓ Compiled in 111ms
 ✓ Compiled in 141ms
 ✓ Compiled in 86ms
+ GET / 200 in 116ms (compile: 81ms, render: 35ms)
