@@ -1,19 +1,16 @@
-import fs from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-
-// Base64 + Basic XOR for simple obfuscation (as requested "basic encryption")
+// Basic XOR for simple obfuscation (as requested "basic encryption")
+// Browser-compatible implementation using btoa/atob with UTF-8 support
 const SECRET_KEY = 'simple-salt';
 
 export const encrypt = (text: string): string => {
     const saltedText = `${SECRET_KEY}:${text}`;
-    return Buffer.from(saltedText).toString('base64');
+    // Use encodeURIComponent/unescape pattern for UTF-8 Base64 in browser
+    return btoa(unescape(encodeURIComponent(saltedText)));
 };
 
 export const decrypt = (encoded: string): string => {
     try {
-        const decoded = Buffer.from(encoded, 'base64').toString('utf-8');
+        const decoded = decodeURIComponent(escape(atob(encoded)));
         const [salt, ...rest] = decoded.split(':');
         if (salt !== SECRET_KEY) return 'Decryption Error';
         return rest.join(':');

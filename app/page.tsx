@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Copy, Plus, Trash2, Key, ShieldCheck, Lock, Eye, EyeOff, Search } from "lucide-react";
+import { encrypt, decrypt } from "@/lib/crypto";
 
 interface PasswordEntry {
   id: string;
@@ -18,49 +19,69 @@ export default function Dashboard() {
   const [visiblePasswords, setVisiblePasswords] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    fetchPasswords();
+    loadFromLocalStorage();
   }, []);
 
-  const fetchPasswords = async () => {
+  const loadFromLocalStorage = () => {
     setLoading(true);
-    const res = await fetch("/api/passwords");
-    const data = await res.json();
-    setPasswords(data);
+    try {
+      const saved = localStorage.getItem("bela-senhas-data");
+      if (saved) {
+        const parsed = JSON.parse(saved) as PasswordEntry[];
+        // Data is saved encrypted, so we decrypt it for the state
+        const decrypted = parsed.map(p => ({
+          ...p,
+          password: decrypt(p.password)
+        }));
+        setPasswords(decrypted);
+      }
+    } catch (error) {
+      console.error("Failed to load passwords", error);
+    }
     setLoading(false);
   };
 
-  const addPassword = async (e: React.FormEvent) => {
+  const saveToLocalStorage = (newPasswords: PasswordEntry[]) => {
+    try {
+      // Encrypt before saving to localStorage
+      const encrypted = newPasswords.map(p => ({
+        ...p,
+        password: encrypt(p.password)
+      }));
+      localStorage.setItem("bela-senhas-data", JSON.stringify(encrypted));
+    } catch (error) {
+      console.error("Failed to save passwords", error);
+    }
+  };
+
+  const addPassword = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newName || !newPass) return;
 
-    const res = await fetch("/api/passwords", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newName, password: newPass }),
-    });
-
-    if (res.status === 409) {
+    // Duplication check (case-insensitive)
+    const exists = passwords.find(p => p.name.toLowerCase() === newName.toLowerCase());
+    if (exists) {
       alert("Erro: Este serviço já existe!");
       return;
     }
 
-    if (res.ok) {
-      setNewName("");
-      setNewPass("");
-      fetchPasswords();
-    }
+    const newEntry: PasswordEntry = {
+      id: Math.random().toString(36).substring(2, 11),
+      name: newName,
+      password: newPass
+    };
+
+    const updated = [...passwords, newEntry];
+    setPasswords(updated);
+    saveToLocalStorage(updated);
+    setNewName("");
+    setNewPass("");
   };
 
-  const deletePassword = async (id: string) => {
-    const res = await fetch("/api/passwords", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-
-    if (res.ok) {
-      fetchPasswords();
-    }
+  const deletePassword = (id: string) => {
+    const updated = passwords.filter(p => p.id !== id);
+    setPasswords(updated);
+    saveToLocalStorage(updated);
   };
 
   const copyToClipboard = (text: string) => {
