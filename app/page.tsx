@@ -105,7 +105,7 @@ export default function Dashboard() {
       <header className="flex flex-col md:flex-row items-baseline justify-between border-l-4 border-primary pl-6 animate-reveal">
         <div>
           <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic">
-            Bela-Senhas
+            Bela Senhas
           </h1>
         </div>
         <div className="flex items-center gap-2 mt-4 md:mt-0 text-white/40">
