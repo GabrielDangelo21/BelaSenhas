@@ -103,16 +103,22 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen p-6 md:p-24 max-w-6xl mx-auto flex flex-col gap-16">
-      <header className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-l-4 border-primary pl-6 animate-reveal">
-        <div className="flex items-center gap-6">
-          <Logo className="w-12 h-12 md:w-20 md:h-20 text-primary" />
-          <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic">
-            Bela Senhas
-          </h1>
+      <header className="flex flex-col md:flex-row items-center justify-between animate-reveal">
+        <div className="flex items-center gap-4">
+          <Logo className="w-14 h-14 md:w-20 md:h-20 text-primary drop-shadow-[0_0_15px_rgba(222,116,97,0.3)]" />
+          <div className="flex flex-col">
+            <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic flex items-baseline gap-2">
+              Bela Senhas
+            </h1>
+            <div className="flex items-center gap-2 mt-1 text-[10px] uppercase font-bold tracking-[0.3em] text-primary/60">
+              <ShieldCheck size={10} />
+              <span>Vault v1.0.0-PRO</span>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2 mt-4 md:mt-0 text-white/40">
-          <ShieldCheck size={16} />
-          <span className="text-[10px] uppercase font-bold">Encrypted Mode Active</span>
+        <div className="hidden md:flex items-center gap-3 text-white/20 border border-white/5 px-4 py-2 bg-white/5 rounded-full">
+          <ShieldCheck size={14} />
+          <span className="text-[10px] uppercase font-bold tracking-widest">Encrypted Mode Active</span>
         </div>
       </header>
 
