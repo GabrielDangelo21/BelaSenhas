@@ -103,23 +103,17 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen flex flex-col">
-      <header className="w-full bg-foreground text-background py-6 md:py-10 px-6 shadow-[0_8px_0_rgba(0,0,0,0.1)] border-b border-background/10">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between animate-reveal">
-          <div className="flex items-center gap-4">
-            <Logo className="w-14 h-14 md:w-20 md:h-20 text-primary drop-shadow-[2px_2px_0_rgba(28,52,76,0.2)]" textColor="#1C344C" />
-            <div className="flex flex-col">
-              <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic flex items-baseline gap-2">
-                Bela Senhas
-              </h1>
-              <div className="flex items-center gap-2 mt-1 text-[10px] uppercase font-bold tracking-[0.3em] text-primary">
-                <ShieldCheck size={10} />
-                <span>Vault v1.0.0-PRO</span>
-              </div>
+      <header className="w-full bg-background text-primary py-12 md:py-20 px-6 border-b border-white/5 shadow-2xl">
+        <div className="max-w-6xl mx-auto flex flex-col items-center justify-center text-center animate-reveal">
+          <div className="flex flex-col items-center gap-4">
+            <Logo className="w-24 h-24 md:w-40 md:h-40" cutoutColor="#1C344C" logoColor="#DE7461" />
+            <h1 className="text-4xl md:text-7xl font-bold uppercase tracking-[0.1em] leading-none mt-4">
+              BelaSenhas
+            </h1>
+            <div className="flex items-center gap-3 mt-4 text-[10px] uppercase font-bold tracking-[0.4em] text-white/30 border border-white/10 px-4 py-2 rounded-full">
+              <ShieldCheck size={12} />
+              <span>Vault v1.0.0-PRO</span>
             </div>
-          </div>
-          <div className="hidden md:flex items-center gap-3 text-background/40 border border-background/10 px-4 py-2 bg-background/5 rounded-full">
-            <ShieldCheck size={14} />
-            <span className="text-[10px] uppercase font-bold tracking-widest">Encrypted Mode Active</span>
           </div>
         </div>
       </header>
