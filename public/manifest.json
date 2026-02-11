@@ -1,0 +1,23 @@
+{
+    "name": "BelaSenhas | Password Manager",
+    "short_name": "BelaSenhas",
+    "description": "Gerenciador de senhas local, seguro e elegante.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#1C344C",
+    "theme_color": "#1C344C",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "maskable"
+        }
+    ]
+}

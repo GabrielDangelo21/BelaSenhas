@@ -8,10 +8,12 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Bela Senhas | Gerenciador de Senhas",
+  title: "BelaSenhas | Gerenciador de Senhas",
   description: "Gerenciador de senhas local, seguro e elegante.",
+  manifest: "/manifest.json",
   icons: {
     icon: "/favicon.svg",
+    apple: "/favicon.svg",
   },
 };
 
