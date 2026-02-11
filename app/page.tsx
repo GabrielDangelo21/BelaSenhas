@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Copy, Plus, Trash2, Key, ShieldCheck, Lock, Eye, EyeOff, Search } from "lucide-react";
 import { encrypt, decrypt } from "@/lib/crypto";
+import { Logo } from "@/components/ui/Logo";
 
 interface PasswordEntry {
   id: string;
@@ -102,8 +103,9 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen p-6 md:p-24 max-w-6xl mx-auto flex flex-col gap-16">
-      <header className="flex flex-col md:flex-row items-baseline justify-between border-l-4 border-primary pl-6 animate-reveal">
-        <div>
+      <header className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-l-4 border-primary pl-6 animate-reveal">
+        <div className="flex items-center gap-6">
+          <Logo className="w-12 h-12 md:w-20 md:h-20 text-primary" />
           <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic">
             Bela Senhas
           </h1>
